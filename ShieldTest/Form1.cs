@@ -38,6 +38,7 @@ namespace ShieldTest
 
 		bool playing = false;
 
+		bool goodInput = false;
 
 		//invader properties:
 		bool dirLeft;
@@ -132,138 +133,142 @@ namespace ShieldTest
 			}
 		}
 
-		//test 1
-		//test 2
-		//test 3
 
 		private void GameTimer_Tick(object sender, EventArgs e)
 		{
 			if (opening)
 			{
-				
 				GameTimer.Stop();
-				if (Int32.TryParse(Microsoft.VisualBasic.Interaction.InputBox("How fast would you like enemies to move? [Default is: 5]", "Invasion Speed", ""), out InvSpeed)) {
-					opening = false;
-					label3.Text = "Diffic:" + InvSpeed;
-					
+				if (Int32.TryParse(Microsoft.VisualBasic.Interaction.InputBox("How fast would you like enemies to move? \n[Default is: 5] \nPlease set it to a value between 1 and 10.", "Invasion Speed", ""), out InvSpeed))
+				{
+
+					if (InvSpeed >= 0 && InvSpeed <= 10)
+					{
+						opening = false;
+						label3.Text = "Diffic:" + InvSpeed;
+						goodInput = true;
+					}
+					else
+					{
+						opening = true;
+						GameTimer.Start();
+					}
 				}
 				else
 				{
 					GameTimer.Start();
 				}
-
-				
-				
 			}
-
-			label2.Text = "Points: " + points;
-			TankPos = tank.Location;
-			if (dirLeft)
+			if (goodInput)
 			{
-				tank.Location = new Point((tank.Location.X - playerMoveSpeed), 475);
-				
-			}
-			else if (dirRight)
-			{
-				tank.Location = new Point((tank.Location.X + playerMoveSpeed), 475);
-			}
-
-
-			foreach (Control picInvader in this.Controls)
-			{
-				if (picInvader.Tag == "Invader" && picInvader is PictureBox)
+				label2.Text = "Points: " + points;
+				TankPos = tank.Location;
+				if (dirLeft)
 				{
-					if (((PictureBox)picInvader).Bounds.IntersectsWith(tank.Bounds))
-					{
-						endGame();
-					}
+					tank.Location = new Point((tank.Location.X - playerMoveSpeed), 475);
 
-					if (goingRight)
-					{
-						((PictureBox)picInvader).Location = new Point((((PictureBox)picInvader).Location.X + InvSpeed), ((PictureBox)picInvader).Location.Y);
-					}
-					else if (goingLeft)
-					{
-						((PictureBox)picInvader).Location = new Point((((PictureBox)picInvader).Location.X - InvSpeed), ((PictureBox)picInvader).Location.Y);	
-					}
-					
+				}
+				else if (dirRight)
+				{
+					tank.Location = new Point((tank.Location.X + playerMoveSpeed), 475);
+				}
 
-					if(((PictureBox)picInvader).Location.X > 850)
+
+				foreach (Control picInvader in this.Controls)
+				{
+					if (picInvader.Tag == "Invader" && picInvader is PictureBox)
 					{
-						goingLeft = true;
-						goingRight = false;
-						invadersDown();
-							
-					}
-					if (((PictureBox)picInvader).Location.X < 0)
-					{
-						goingLeft = false;
-						goingRight = true;
-						invadersDown();
+						if (((PictureBox)picInvader).Bounds.IntersectsWith(tank.Bounds))
+						{
+							endGame();
+						}
+
+						if (goingRight)
+						{
+							((PictureBox)picInvader).Location = new Point((((PictureBox)picInvader).Location.X + InvSpeed), ((PictureBox)picInvader).Location.Y);
+						}
+						else if (goingLeft)
+						{
+							((PictureBox)picInvader).Location = new Point((((PictureBox)picInvader).Location.X - InvSpeed), ((PictureBox)picInvader).Location.Y);
+						}
+
+
+						if (((PictureBox)picInvader).Location.X > 850)
+						{
+							goingLeft = true;
+							goingRight = false;
+							invadersDown();
+
+						}
+						if (((PictureBox)picInvader).Location.X < 0)
+						{
+							goingLeft = false;
+							goingRight = true;
+							invadersDown();
+						}
+
 					}
 
 				}
 
-			}
 
-
-			if (missileShot)
-			{
-				
-				Missile.Show();
-				Missile.Location = new Point((Missile.Location.X), (Missile.Location.Y - 20));
-				label1.Text = "m:" + Missile.Location.Y;
-				if (Missile.Location.Y <= -30)
+				if (missileShot)
 				{
-					Missile.Hide();
-					Missile.Location = new Point(875, 530);
-					missileShot = false;
-					shootable = true;
-					
-				}
 
-
-				if (Missile.Location.Y <= 383 && shieldAlive && Missile.Location.X >= 336 && Missile.Location.X <= 510)
-				{
-					Missile.Hide();
-					Missile.Location = new Point(875, 530);
-					missileShot = false;
-					shootable = true;
-					decayShield = true;
-					Refresh();
-					shouldDecay = true;
-
-				}
-				
-			}
-
-			foreach (Control picInv in this.Controls)
-			{
-				if (picInv is PictureBox && picInv.Tag == "Invader")
-				{
-					if (picInv.Bounds.IntersectsWith(Missile.Bounds))
+					Missile.Show();
+					Missile.Location = new Point((Missile.Location.X), (Missile.Location.Y - 20));
+					label1.Text = "m:" + Missile.Location.Y;
+					if (Missile.Location.Y <= -30)
 					{
-						points++;
-						this.Controls.Remove(picInv);
 						Missile.Hide();
 						Missile.Location = new Point(875, 530);
 						missileShot = false;
 						shootable = true;
+
+					}
+
+
+					if (Missile.Location.Y <= 383 && shieldAlive && Missile.Location.X >= 336 && Missile.Location.X <= 510)
+					{
+						Missile.Hide();
+						Missile.Location = new Point(875, 530);
+						missileShot = false;
+						shootable = true;
+						decayShield = true;
+						Refresh();
+						shouldDecay = true;
+
 					}
 
 				}
 
+				foreach (Control picInv in this.Controls)
+				{
+					if (picInv is PictureBox && picInv.Tag == "Invader")
+					{
+						if (picInv.Bounds.IntersectsWith(Missile.Bounds))
+						{
+							points++;
+							this.Controls.Remove(picInv);
+							Missile.Hide();
+							Missile.Location = new Point(875, 530);
+							missileShot = false;
+							shootable = true;
+						}
+
+					}
+
+				}
+
+				if (points >= amountEnemies)
+				{
+					GameTimer.Stop();
+					MessageBox.Show("Victory!");
+
+				}
+
 			}
-
-			if (points >= amountEnemies)
-			{
-				GameTimer.Stop();
-				MessageBox.Show("Victory!");
-
-			}
-
 		}
-
 		private void shoot()
 		{
 			Missile.Show();

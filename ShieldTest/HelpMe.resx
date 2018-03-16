@@ -131,6 +131,6 @@ Win conditions:
 All enemies are eliminated.
 
 Loss conditions:
-Invaders reach the tank.</value>
+Invaders fully breach the shield.</value>
   </data>
 </root>

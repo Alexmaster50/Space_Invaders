@@ -7,7 +7,7 @@
     <ProjectGuid>{CDBD6FA5-A550-4C40-8557-1E74FC1C3957}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ShieldTest</RootNamespace>
-    <AssemblyName>Alex Space Invaders</AssemblyName>
+    <AssemblyName>Alex-C 114477 - Space Invaders</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

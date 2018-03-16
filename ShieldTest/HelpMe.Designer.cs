@@ -63,7 +63,7 @@
 			this.Controls.Add(this.lblInformation);
 			this.Controls.Add(this.btnReturn);
 			this.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "HelpMe";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "HelpMe";
