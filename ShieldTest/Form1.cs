@@ -139,10 +139,10 @@ namespace ShieldTest
 			if (opening)
 			{
 				GameTimer.Stop();
-				if (Int32.TryParse(Microsoft.VisualBasic.Interaction.InputBox("How fast would you like enemies to move? \n[Default is: 5] \nPlease set it to a value between 1 and 10.", "Invasion Speed", ""), out InvSpeed))
+				if (Int32.TryParse(Microsoft.VisualBasic.Interaction.InputBox("How fast would you like enemies to move? \n[Default is: 5] \nPlease set it to a value between 1 and 15.", "Invasion Speed", ""), out InvSpeed))
 				{
 
-					if (InvSpeed >= 0 && InvSpeed <= 10)
+					if (InvSpeed >= 0 && InvSpeed <= 15)
 					{
 						opening = false;
 						label3.Text = "Diffic:" + InvSpeed;
